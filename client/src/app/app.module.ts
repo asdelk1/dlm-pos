@@ -23,6 +23,8 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { ItemsComponent } from './items/items.component';
+import { CreateItemComponent } from './items/create-item/create-item.component';
+import { SaleComponent } from './sale/sale.component';
 
 @NgModule({
   imports: [
@@ -40,8 +42,6 @@ import { ItemsComponent } from './items/items.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    ItemsComponent,
-
   ],
   providers: [],
   bootstrap: [AppComponent]
