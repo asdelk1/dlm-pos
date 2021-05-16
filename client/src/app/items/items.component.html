@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <button class="btn btn-sm btn-default" [routerLink]="'add'">Add Item</button>
+                            <button class="btn btn-sm btn-info" [routerLink]="'add'">Add Item</button>
 
                         </div>
                         <div class="table-responsive">
@@ -35,7 +35,7 @@
                                 <tbody>
                                 <tr *ngFor="let item of items">
                                     <td>
-                                        <a class="btn btn-sm" [routerLink]="[item.id]"><span class="material-icons-outlined"></span></a>
+                                        <a class="btn btn-outline-warning btn-sm" [routerLink]="[item.id]"><i class="material-icons">info</i></a>
                                     </td>
                                     <td>
                                         {{item.itemId}}
