@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {NotificationsService, NotificationType} from "./notifications.service";
+
 declare var $: any;
 @Component({
   selector: 'app-notifications',
@@ -7,7 +9,7 @@ declare var $: any;
 })
 export class NotificationsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private notificationService: NotificationsService) { }
   showNotification(from, align){
       const type = ['','info','success','warning','danger'];
 
@@ -26,7 +28,7 @@ export class NotificationsComponent implements OnInit {
           },
           template: '<div data-notify="container" class="col-xl-4 col-lg-4 col-11 col-sm-4 col-md-4 alert alert-{0} alert-with-icon" role="alert">' +
             '<button mat-button  type="button" aria-hidden="true" class="close mat-button" data-notify="dismiss">  <i class="material-icons">close</i></button>' +
-            '<i class="material-icons" data-notify="icon">notifications</i> ' +
+            '<i class="material-icons" data-notify="icon"></i> ' +
             '<span data-notify="title">{1}</span> ' +
             '<span data-notify="message">{2}</span>' +
             '<div class="progress" data-notify="progressbar">' +
@@ -37,6 +39,10 @@ export class NotificationsComponent implements OnInit {
       });
   }
   ngOnInit() {
+  }
+
+  public myNotification(): void {
+    this.notificationService.showNotification("Hello World!!!", NotificationType.SUCCESS);
   }
 
 }

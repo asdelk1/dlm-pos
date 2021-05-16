@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ItemService} from "../item.service";
 import {Item} from "../item.model";
-import {Router, Routes} from "@angular/router";
+import {ActivatedRoute, Router, Routes} from "@angular/router";
 
 @Component({
   selector: 'app-create-item',
@@ -12,16 +12,29 @@ import {Router, Routes} from "@angular/router";
 export class CreateItemComponent implements OnInit {
 
   public form: FormGroup = new FormGroup({
+    "id": new FormControl(""),
     "itemId": new FormControl("", [Validators.required]),
     "name": new FormControl("", [Validators.required]),
     "description": new FormControl("", [Validators.required]),
     "unitPrice": new FormControl("", [Validators.required]),
+    "active": new FormControl("true"),
   });
 
+  public isEditMode: boolean = false;
+
   constructor(private itemService: ItemService,
-              private routes: Router) { }
+              private routes: Router,
+              private activatedRoutes: ActivatedRoute) { }
 
   ngOnInit(): void {
+    const id: string | null = this.activatedRoutes.snapshot.paramMap.get('id');
+    if(id){
+      this.isEditMode = true;
+      this.itemService.getItem(id).subscribe(
+          (item: Item) => {
+        this.form.patchValue(item);
+      });
+    }
   }
 
   public onSubmit(): void {
