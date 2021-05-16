@@ -33,3 +33,7 @@
   position: absolute;
   width: 260px;
 }
+
+.ng-invalid:not(form) .ng-dirty {
+ color: #a94442; /* red */
+}
