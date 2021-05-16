@@ -20,20 +20,22 @@ import {MatSelectModule} from '@angular/material/select';
 import {ItemsComponent} from "../../items/items.component";
 import {CreateItemComponent} from "../../items/create-item/create-item.component";
 import {SaleComponent} from "../../sale/sale.component";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
-    FormsModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatRippleModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatTooltipModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AdminLayoutRoutes),
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+    ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

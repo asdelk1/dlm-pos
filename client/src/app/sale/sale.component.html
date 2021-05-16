@@ -20,20 +20,31 @@
                     <div class="card-body">
 
                         <h6 class="card-category text-gray text-center">New Item</h6>
-                        <form>
+                        <form [formGroup]="form" (ngSubmit)="addToCart()">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-7">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Username">
+                                        <mat-label>Item</mat-label>
+                                        <input matInput
+                                               aria-label="State"
+                                               [matAutocomplete]="auto"
+                                               formControlName="item">
+                                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChange()">
+                                            <mat-option *ngFor="let item of filteredItems | async" [value]="item.itemId">
+<!--                                                <img class="example-option-img" aria-hidden [src]="state.flag" height="25">-->
+                                                <span>{{item.name}}</span> |
+                                                <small>{{item.itemId}}</small>
+                                            </mat-option>
+                                        </mat-autocomplete>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <mat-form-field class="example-full-width pull-right">
-                                        <input matInput placeholder="Qty" type="number">
+                                        <input formControlName="qty" matInput placeholder="Qty" type="number">
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-4">
-                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right">
+                                <div class="col-lg-2">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="form.invalid">
                                         <i class="material-icons">add_circle</i>
                                     </button>
                                 </div>
@@ -43,8 +54,8 @@
                             <hr>
                             <div class="row">
                             <div class="col-lg-8"><h3>Total</h3></div>
-                            <div class="col-lg-4 text-right"><h3>300</h3>
-                                <button class="btn btn-info btn-sm"><i class="material-icons">shopping_cart</i></button></div>
+                            <div class="col-lg-4 text-right"><h3>{{total}}</h3>
+                                <button type="button" (click)="onShoppingCart()" class="btn btn-info btn-sm"><i class="material-icons">shopping_cart</i></button></div>
                             </div>
 
 
@@ -63,6 +74,9 @@
                                     Item
                                 </th>
                                 <th>
+                                    Item Price
+                                </th>
+                                <th>
                                     Qty
                                 </th>
                                 <th>
@@ -70,15 +84,18 @@
                                 </th>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr *ngFor="let sale of sales">
                                     <td>
-                                       Carpet
+                                        {{sale.item.name}}({{sale.item.itemId}})
                                     </td>
                                     <td>
-                                        1
+                                        {{sale.item.unitPrice}}
+                                    </td>
+                                    <td>
+                                        {{sale.qty}}
                                     </td>
                                     <td class="text-primary">
-                                        $36,738
+                                        {{sale.qty * sale.item.unitPrice}}
                                     </td>
                                 </tr>
                                 </tbody>

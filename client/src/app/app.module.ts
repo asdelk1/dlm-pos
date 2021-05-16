@@ -26,6 +26,7 @@ import {ItemsComponent} from './items/items.component';
 import {CreateItemComponent} from './items/create-item/create-item.component';
 import {SaleComponent} from './sale/sale.component';
 
+
 @NgModule({
     imports: [
         BrowserAnimationsModule,
