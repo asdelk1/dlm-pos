@@ -6,14 +6,16 @@ import com.dlm.dlmpos.entity.Sale;
 import com.dlm.dlmpos.entity.SaleDetail;
 import com.dlm.dlmpos.repository.SaleDetailRepository;
 import com.dlm.dlmpos.repository.SaleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class SaleService {
@@ -38,7 +40,7 @@ public class SaleService {
 
         List<SaleDetail> saleDetailList = new ArrayList<>();
         for (ShoppingCartItemDTO itemInCart : cart) {
-            Optional<Item> item = this.itemService.get(itemInCart.getItemId());
+            Optional<Item> item = this.itemService.get(itemInCart.getItem().getId());
             if (item.isPresent()) {
                 long qty = itemInCart.getQty();
                 BigDecimal unitPrice = item.get().getUnitPrice();
@@ -54,8 +56,34 @@ public class SaleService {
                 totalBill = totalBill.add(total);
             }
         }
-        sale.setTotal(totalBill);
-        this.saleRepository.save(sale);
-        this.repository.saveAll(saleDetailList);
+
+        if (saleDetailList.size() > 0) {
+            sale.setTotal(totalBill);
+            this.saleRepository.save(sale);
+            this.repository.saveAll(saleDetailList);
+        }
+    }
+
+    public void exportReceipt(long id, OutputStream out) throws JRException {
+
+        Optional<Sale> saleOpt = this.saleRepository.findById(id);
+        if (saleOpt.isEmpty()) {
+            return;
+        }
+
+        Sale sale = saleOpt.get();
+        InputStream is = this.getClass().getResourceAsStream("/reports/receipt.jrxml");
+        final JasperReport reports = JasperCompileManager.compileReport(is);
+        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(sale.getDetails());
+        final Map<String, Object> params = new HashMap<>();
+        params.put("timestamp", sale.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        params.put("totalBill", sale.getTotal().toPlainString());
+
+        JasperPrint print = JasperFillManager.fillReport(reports, params, source);
+        JasperExportManager.exportReportToPdfStream(print, out);
+    }
+
+    public List<Sale> getHistory(){
+        return this.saleRepository.findAll();
     }
 }

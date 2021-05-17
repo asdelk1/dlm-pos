@@ -16,8 +16,8 @@ export class SaleService {
         this.baseURL = `${apiService.getBaseURL()}/sale`;
     }
 
-    public saveShoppingCart(items: SaleDetail[]): Observable<SaleDetail[]> {
-        return this.httpClient.post<SaleDetail[]>(this.baseURL, items);
+    public saveShoppingCart(items: SaleDetail[]): Observable<string> {
+        return this.httpClient.post<string>(this.baseURL, items);
     }
 
 }

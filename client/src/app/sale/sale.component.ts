@@ -83,7 +83,7 @@ export class SaleComponent implements OnInit {
 
     public onShoppingCart(): void {
         this.saleService.saveShoppingCart(this.sales).subscribe(
-            (items: SaleDetail[]) => {
+            (items: string) => {
                 this.notificationService.showNotification("Success", NotificationType.SUCCESS);
                 this.resetCart();
             });
