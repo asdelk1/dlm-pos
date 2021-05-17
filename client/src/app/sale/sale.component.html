@@ -7,6 +7,7 @@
                         <h4>New Sale</h4>
                     </div>
                     <div class="card-body">
+                        <button class="btn" (click)="printRecipt()">Print</button>
                         <button *ngIf="sales.length > 0" (click)="onShoppingCart()" class="btn btn-info btn-sm"><i class="material-icons">shopping_cart</i>Print Receipt</button>
                         <button *ngIf="sales.length > 0" class="btn btn-default btn-sm" (click)="resetCart()"><i class="material-icons">close</i>Clear Shopping Cart</button>
                     </div>

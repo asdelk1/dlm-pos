@@ -89,4 +89,14 @@ export class SaleComponent implements OnInit {
             });
     }
 
+    public printRecipt(): void {
+        this.saleService.printReceipt(11).subscribe(
+            (response: any) => {
+                let blob = new Blob([response], {type: "application/pdf"});
+                let url = window.URL.createObjectURL(blob);
+                let pwa = window.open(url);
+                pwa.print();
+            });
+    }
+
 }

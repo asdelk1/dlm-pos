@@ -19,5 +19,11 @@ export class SaleService {
     public saveShoppingCart(items: SaleDetail[]): Observable<string> {
         return this.httpClient.post<string>(this.baseURL, items);
     }
+    
+    public printReceipt(id: number): Observable<any>{
+
+        const url: string = `${this.baseURL}/${id}/print`;
+        return this.httpClient.get<any>(url,  {"responseType": 'arraybuffer' as "json" });
+    }
 
 }
