@@ -58,7 +58,7 @@ export class SaleComponent implements OnInit {
 
         this.receivedAmount.valueChanges.subscribe(
             (value: number) => {
-                 this.balance = value - this.total;
+                this.balance = value - this.total;
             }
         );
     }
@@ -92,15 +92,18 @@ export class SaleComponent implements OnInit {
     }
 
     public processCart(): void {
-        this.modalService.open(this.saleDialog, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-            this.printReceipt();
-        }, (res) => {
-            this.resetCart();
-        });
+        this.modalService.open(this.saleDialog, {ariaLabelledBy: 'modal-basic-title'}).result.then(
+            (res: string) => {
+                this.printReceipt();
+            },
+            (res: string) => {
+                this.resetCart();
+            }
+        );
     }
 
     public receiveMoney(): void {
-        this.saleService.saveShoppingCart(this.sales).subscribe(
+        this.saleService.saveShoppingCart(this.receivedAmount.value, this.sales).subscribe(
             (items: string) => {
                 this.notificationService.showNotification("Success", NotificationType.SUCCESS);
 

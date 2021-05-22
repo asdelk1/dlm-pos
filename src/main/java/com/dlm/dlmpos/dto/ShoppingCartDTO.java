@@ -8,6 +8,6 @@ import org.hibernate.validator.constraints.ScriptAssert;
 @Setter
 public class ShoppingCartDTO {
 
-    private String msg;
+    private double moneyReceived;
     private ShoppingCartItemDTO[] items;
 }

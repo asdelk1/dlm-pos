@@ -1,5 +1,6 @@
 package com.dlm.dlmpos.service;
 
+import com.dlm.dlmpos.dto.ShoppingCartDTO;
 import com.dlm.dlmpos.dto.ShoppingCartItemDTO;
 import com.dlm.dlmpos.entity.Item;
 import com.dlm.dlmpos.entity.Sale;
@@ -30,7 +31,7 @@ public class SaleService {
         this.saleRepository = saleRepository;
     }
 
-    public void saveShoppingCart(ShoppingCartItemDTO[] cart) {
+    public void saveShoppingCart(ShoppingCartDTO cart) {
 
         Sale sale = new Sale();
         sale.setTimestamp(LocalDateTime.now());
@@ -39,7 +40,7 @@ public class SaleService {
         BigDecimal totalBill = BigDecimal.ZERO;
 
         List<SaleDetail> saleDetailList = new ArrayList<>();
-        for (ShoppingCartItemDTO itemInCart : cart) {
+        for (ShoppingCartItemDTO itemInCart : cart.getItems()) {
             Optional<Item> item = this.itemService.get(itemInCart.getItem().getId());
             if (item.isPresent()) {
                 long qty = itemInCart.getQty();
@@ -59,6 +60,8 @@ public class SaleService {
 
         if (saleDetailList.size() > 0) {
             sale.setTotal(totalBill);
+            sale.setAmountReceived(BigDecimal.valueOf(cart.getMoneyReceived()));
+            sale.setBalance(sale.getAmountReceived().subtract(sale.getTotal()));
             this.saleRepository.save(sale);
             this.repository.saveAll(saleDetailList);
         }

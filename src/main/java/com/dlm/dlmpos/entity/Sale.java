@@ -17,6 +17,8 @@ public class Sale {
     private Long id;
     private LocalDateTime timestamp;
     private BigDecimal total;
+    private BigDecimal amountReceived;
+    private BigDecimal balance;
     @OneToMany(mappedBy = "sale")
     List<SaleDetail> details;
 }
