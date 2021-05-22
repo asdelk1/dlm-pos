@@ -1,0 +1,67 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Items</h4>
+                        <p class="card-category"> Items in the Inventory</p>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <button class="btn btn-sm btn-info" [routerLink]="'add'">Add Item</button>
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th></th>
+                                <th>
+                                    Item ID
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Unit Price
+                                </th>
+                                <th>
+                                    Active
+                                </th>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let item of items">
+                                    <td>
+                                        <a class="btn btn-outline-warning btn-sm" [routerLink]="[item.id]"><i class="material-icons">info</i></a>
+                                    </td>
+                                    <td>
+                                        {{item.itemId}}
+                                    </td>
+                                    <td>
+                                        {{item.name}}
+                                    </td>
+                                    <td>
+                                        {{item.description}}
+                                    </td>
+                                    <td class="text-primary">
+                                        {{item.unitPrice}}
+                                    </td>
+                                    <td >
+                                        <span *ngIf="item.active;else inActive" class="badge badge-success">Active</span>
+                                        <ng-template #inActive>
+                                            <span class="badge badge-secondary"> In Active</span>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

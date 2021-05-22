@@ -14,4 +14,5 @@ public class ItemDTO {
     private String name;
     private String description;
     private BigDecimal unitPrice;
+    private boolean active;
 }

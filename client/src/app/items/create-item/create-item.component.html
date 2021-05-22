@@ -1,0 +1,48 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Create New Item</h4>
+                        <p class="card-category">Enter Details of Item</p>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <input type="text" formControlName="id" hidden>
+                                <input type="text" formControlName="active" hidden>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input formControlName="itemId" matInput placeholder="Item Id" type="text">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input formControlName="name" matInput placeholder="Name" type="text">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input formControlName="description" matInput placeholder="Description" type="text">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input formControlName="unitPrice" matInput placeholder="Unit Price" type="text">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="form.invalid">Save</button>
+                            <button mat-raised-button type="reset" class="btn btn-default pull-right">Cancel</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
