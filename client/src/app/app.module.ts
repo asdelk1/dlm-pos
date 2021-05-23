@@ -12,6 +12,7 @@ import {AppComponent} from './app.component';
 import {AgmCoreModule} from '@agm/core';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { SaleDetailComponent } from './history/sale-detail/sale-detail.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     ],
     declarations: [
         AppComponent,
-        AdminLayoutComponent
+        AdminLayoutComponent,
+        SaleDetailComponent
     ],
     providers: [],
     bootstrap: [AppComponent]

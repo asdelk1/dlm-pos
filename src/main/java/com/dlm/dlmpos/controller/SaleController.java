@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +52,11 @@ public class SaleController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<SaleDTO>> getHistory(){
+    public ResponseEntity<List<SaleDTO>> getHistory(@PathParam("start") String start, @PathParam("end") String end){
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = start != null ? LocalDate.parse(start,dateFormatter) : null;
+        LocalDate endDate = end != null ? LocalDate.parse(end,dateFormatter) : null;
 
         List<Sale> saleList = this.saleService.getHistory();
         List<SaleDTO> dtoList = saleList.stream().map(s -> {

@@ -4,6 +4,7 @@ import {Sale} from "../sale/sale.model";
 import {ApiService} from "../api/api.service";
 import {HttpClient} from "@angular/common/http";
 import {take} from "rxjs/operators";
+import {DatePipe} from "@angular/common";
 
 @Component({
     selector: 'app-history',
@@ -31,11 +32,21 @@ export class HistoryComponent implements OnInit {
 
     public loadData(): void {
         const timeRange: { start: Date, end: Date } = this.range.value;
-        if(timeRange){
-            console.log('this should load new data with time range.')
+        let params: {[key: string]: string} | undefined = undefined;
+        if(timeRange && (timeRange.start || timeRange.end)){
+            const datePipe = new DatePipe('en-US');
+            params = {};
+            if(timeRange.start){
+                params["start"] = datePipe.transform(timeRange.start, "yyyy-MM-dd");
+            }
+
+            if(timeRange.end){
+                params["end"] = datePipe.transform(timeRange.end, "yyyy-MM-dd");
+            }
+
         }
 
-        this.httpService.get<Sale[]>(this.baseUrl).pipe(take(1)).subscribe(
+        this.httpService.get<Sale[]>(this.baseUrl,{params: params}).pipe(take(1)).subscribe(
             (sales: Sale[]) => {
                 this.previousSales = sales;
             }

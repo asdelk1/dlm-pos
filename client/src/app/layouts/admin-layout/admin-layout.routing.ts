@@ -12,6 +12,7 @@ import {ItemsComponent} from "../../items/items.component";
 import {CreateItemComponent} from "../../items/create-item/create-item.component";
 import {SaleComponent} from "../../sale/sale.component";
 import {HistoryComponent} from "../../history/history.component";
+import {SaleDetailComponent} from "../../history/sale-detail/sale-detail.component";
 
 export const AdminLayoutRoutes: Routes = [
     {path: 'dashboard', component: DashboardComponent},
@@ -38,6 +39,7 @@ export const AdminLayoutRoutes: Routes = [
         path: 'history',
         children: [
             {path: '', component: HistoryComponent},
+            {path: ':id', component: SaleDetailComponent}
         ]
     },
 ];
