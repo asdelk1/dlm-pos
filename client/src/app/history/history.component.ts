@@ -53,4 +53,9 @@ export class HistoryComponent implements OnInit {
         )
     }
 
+    public reset(): void {
+        this.range.reset({});
+        this.loadData()
+    }
+
 }

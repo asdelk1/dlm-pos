@@ -58,7 +58,7 @@ public class SaleController {
         LocalDate startDate = start != null ? LocalDate.parse(start,dateFormatter) : null;
         LocalDate endDate = end != null ? LocalDate.parse(end,dateFormatter) : null;
 
-        List<Sale> saleList = this.saleService.getHistory();
+        List<Sale> saleList = this.saleService.getHistory(startDate, endDate);
         List<SaleDTO> dtoList = saleList.stream().map(s -> {
             SaleDTO dto = this.mapper.map(s, SaleDTO.class);
             dto.setItemCount(s.getDetails().size());
