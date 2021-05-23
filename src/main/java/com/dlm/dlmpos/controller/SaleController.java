@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,12 @@ public class SaleController {
     public ResponseEntity<List<SaleDTO>> getHistory(){
 
         List<Sale> saleList = this.saleService.getHistory();
-        List<SaleDTO> dtoList = saleList.stream().map(s -> this.mapper.map(s, SaleDTO.class)).collect(Collectors.toList());
+        List<SaleDTO> dtoList = saleList.stream().map(s -> {
+            SaleDTO dto = this.mapper.map(s, SaleDTO.class);
+            dto.setItemCount(s.getDetails().size());
+            dto.setTimestamp(s.getTimestamp().format(DateTimeFormatter.ISO_DATE_TIME));
+            return dto;
+        }).collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
 }

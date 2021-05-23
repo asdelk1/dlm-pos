@@ -4,7 +4,7 @@ import {Item} from "../items/item.model";
 import {SaleDetail} from "./sale.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, take} from 'rxjs/operators';
 import {SaleService} from "./sale.service";
 import {NotificationsService, NotificationType} from "../notifications/notifications.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -94,7 +94,7 @@ export class SaleComponent implements OnInit {
     public processCart(): void {
         this.modalService.open(this.saleDialog, {ariaLabelledBy: 'modal-basic-title'}).result.then(
             (res: string) => {
-                this.printReceipt();
+                this.receiveMoney();
             },
             (res: string) => {
                 this.resetCart();
@@ -103,10 +103,9 @@ export class SaleComponent implements OnInit {
     }
 
     public receiveMoney(): void {
-        this.saleService.saveShoppingCart(this.receivedAmount.value, this.sales).subscribe(
+        this.saleService.saveShoppingCart(this.receivedAmount.value, this.sales).pipe(take(1)).subscribe(
             (items: string) => {
                 this.notificationService.showNotification("Success", NotificationType.SUCCESS);
-
                 this.resetCart();
             });
     }

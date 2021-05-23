@@ -26,6 +26,14 @@ export class HistoryComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.loadData();
+    }
+
+    public loadData(): void {
+        const timeRange: { start: Date, end: Date } = this.range.value;
+        if(timeRange){
+            console.log('this should load new data with time range.')
+        }
 
         this.httpService.get<Sale[]>(this.baseUrl).pipe(take(1)).subscribe(
             (sales: Sale[]) => {
