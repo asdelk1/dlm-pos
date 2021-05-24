@@ -1,6 +1,7 @@
 package com.dlm.dlmpos.controller;
 
 import com.dlm.dlmpos.dto.SaleDTO;
+import com.dlm.dlmpos.dto.ShoppingCartDTO;
 import com.dlm.dlmpos.dto.ShoppingCartItemDTO;
 import com.dlm.dlmpos.entity.Sale;
 import com.dlm.dlmpos.service.SaleService;
@@ -31,9 +32,9 @@ public class SaleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<URI> addSale(@RequestBody ShoppingCartItemDTO[] itemsInCart){
+    public ResponseEntity<URI> addSale(@RequestBody ShoppingCartDTO sale){
 
-        this.saleService.saveShoppingCart(itemsInCart);
+        this.saleService.saveShoppingCart(sale);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
         return ResponseEntity.created(uri).build();
     }

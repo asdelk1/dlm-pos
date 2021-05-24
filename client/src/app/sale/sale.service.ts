@@ -16,8 +16,12 @@ export class SaleService {
         this.baseURL = `${apiService.getBaseURL()}/sale`;
     }
 
-    public saveShoppingCart(items: SaleDetail[]): Observable<string> {
-        return this.httpClient.post<string>(this.baseURL, items);
+    public saveShoppingCart(receivedAmount: number, items: SaleDetail[]): Observable<string> {
+        const sale: {moneyReceived: number, items: SaleDetail[]} = {
+            moneyReceived: receivedAmount,
+            items: items
+        };
+        return this.httpClient.post<string>(this.baseURL, sale);
     }
     
     public printReceipt(id: number): Observable<any>{
