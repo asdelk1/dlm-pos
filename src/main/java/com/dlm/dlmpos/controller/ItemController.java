@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class ItemController {
 
     private final ItemService itemService;
-
     private final ModelMapper mapper;
 
     public ItemController(ItemService itemService, ModelMapper mapper) {
@@ -43,7 +42,7 @@ public class ItemController {
         Optional<Item> item = this.itemService.get(id);
         ItemDTO dto = null;
         if(item.isPresent()){
-            dto = this.mapper.map(item, ItemDTO.class);
+            dto = this.mapper.map(item.get(), ItemDTO.class);
         }
         return ResponseEntity.ok(dto);
     }
@@ -52,11 +51,12 @@ public class ItemController {
     public ResponseEntity<Object> createItem(@RequestBody @Valid ItemDTO itemDTO) {
 
         Item item = new Item();
+        item.setId(itemDTO.getId());
         item.setItemId(itemDTO.getItemId());
         item.setName(itemDTO.getName());
         item.setDescription(itemDTO.getDescription());
         item.setUnitPrice(itemDTO.getUnitPrice());
-        item.setActive(true);
+        item.setActive(itemDTO.isActive());
 
         Item createdItem = this.itemService.save(item);
 

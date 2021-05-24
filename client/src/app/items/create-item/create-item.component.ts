@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ItemService} from "../item.service";
 import {Item} from "../item.model";
-import {ActivatedRoute, Router, Routes} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {NotificationsService, NotificationType} from "../../notifications/notifications.service";
 
 @Component({
   selector: 'app-create-item',
@@ -24,7 +25,8 @@ export class CreateItemComponent implements OnInit {
 
   constructor(private itemService: ItemService,
               private routes: Router,
-              private activatedRoutes: ActivatedRoute) { }
+              private activatedRoutes: ActivatedRoute,
+              private notifications: NotificationsService) { }
 
   ngOnInit(): void {
     const id: string | null = this.activatedRoutes.snapshot.paramMap.get('id');
@@ -41,8 +43,13 @@ export class CreateItemComponent implements OnInit {
     console.log(this.form.value);
     const item: Item = this.form.value as Item;
     this.itemService.saveItem(item).subscribe((newItem: Item) => {
+      this.notifications.showNotification("Item saved successfully.", NotificationType.SUCCESS);
       this.routes.navigate(["/items"]);
     });
+  }
+
+  public onCancel(): void {
+    this.routes.navigate(["/items"]);
   }
 
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,6 +36,7 @@ public class SaleService {
 
         Sale sale = new Sale();
         sale.setTimestamp(LocalDateTime.now());
+        sale.setDate(LocalDate.now());
         sale = this.saleRepository.save(sale);
 
         BigDecimal totalBill = BigDecimal.ZERO;
@@ -52,6 +54,7 @@ public class SaleService {
                 saleDetail.setUnitPrice(unitPrice);
                 saleDetail.setTotal(total);
                 saleDetail.setSale(sale);
+                saleDetail.setQty(itemInCart.getQty());
                 saleDetailList.add(saleDetail);
 
                 totalBill = totalBill.add(total);
@@ -86,7 +89,19 @@ public class SaleService {
         JasperExportManager.exportReportToPdfStream(print, out);
     }
 
-    public List<Sale> getHistory(){
-        return this.saleRepository.findAll();
+    public List<Sale> getHistory(LocalDate from, LocalDate to){
+
+        List<Sale> sales;
+        if(from == null && to == null){
+            sales = this.saleRepository.findTop30ByOrderByDateDesc();
+        }else{
+            sales = this.saleRepository.findPreviousSales(from, to);
+        }
+        return sales;
+    }
+
+    public Optional<Sale> getSale(long id){
+
+        return this.saleRepository.findById(id);
     }
 }

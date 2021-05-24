@@ -1,6 +1,7 @@
 package com.dlm.dlmpos.controller;
 
 import com.dlm.dlmpos.dto.SaleDTO;
+import com.dlm.dlmpos.dto.SaleDetailDTO;
 import com.dlm.dlmpos.dto.ShoppingCartDTO;
 import com.dlm.dlmpos.dto.ShoppingCartItemDTO;
 import com.dlm.dlmpos.entity.Sale;
@@ -12,10 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,11 +53,33 @@ public class SaleController {
         this.saleService.exportReceipt(id, out);
     }
 
-    @GetMapping("/history")
-    public ResponseEntity<List<SaleDTO>> getHistory(){
+    @GetMapping("/{id}")
+    public ResponseEntity<SaleDTO> getSale(@PathVariable long id){
 
-        List<Sale> saleList = this.saleService.getHistory();
-        List<SaleDTO> dtoList = saleList.stream().map(s -> this.mapper.map(s, SaleDTO.class)).collect(Collectors.toList());
+        Optional<Sale> sale = this.saleService.getSale(id);
+        if(sale.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        SaleDTO dto = this.mapper.map(sale.get(), SaleDTO.class);
+        dto.setTimestamp(sale.get().getTimestamp().format(DateTimeFormatter.ISO_DATE_TIME));
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<SaleDTO>> getHistory(@PathParam("start") String start, @PathParam("end") String end){
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = start != null ? LocalDate.parse(start,dateFormatter) : null;
+        LocalDate endDate = end != null ? LocalDate.parse(end,dateFormatter) : null;
+
+        List<Sale> saleList = this.saleService.getHistory(startDate, endDate);
+        List<SaleDTO> dtoList = saleList.stream().map(s -> {
+            SaleDTO dto = this.mapper.map(s, SaleDTO.class);
+            dto.setItemCount(s.getDetails().size());
+            dto.setTimestamp(s.getTimestamp().format(DateTimeFormatter.ISO_DATE_TIME));
+            return dto;
+        }).collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
 }

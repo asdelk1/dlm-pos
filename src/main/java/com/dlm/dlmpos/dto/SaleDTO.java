@@ -1,12 +1,9 @@
 package com.dlm.dlmpos.dto;
 
-import com.dlm.dlmpos.entity.SaleDetail;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.OneToMany;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -14,7 +11,10 @@ import java.util.List;
 public class SaleDTO {
 
     private Long id;
-    private LocalDateTime timestamp;
+    private String timestamp;
     private BigDecimal total;
-    List<SaleDetailDTO> details;
+    private BigDecimal amountReceived;
+    private BigDecimal balance;
+    private long itemCount;
+    private List<SaleDetailDTO> details;
 }

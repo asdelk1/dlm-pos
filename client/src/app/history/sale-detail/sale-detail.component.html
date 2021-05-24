@@ -1,0 +1,100 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Sale Details</h4>
+                        <p class="card-category"></p>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Id</mat-label>
+                                            <input [formControl]="idControl" matInput placeholder="" type="text">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Date/Time</mat-label>
+                                            <input [formControl]="timestampControl" matInput placeholder="" type="text">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Total</mat-label>
+                                            <input [formControl]="totalControl" matInput placeholder="" type="text">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Amount Received</mat-label>
+                                            <input [formControl]="amountReceivedControl" matInput placeholder=""
+                                                   type="text">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Balance</mat-label>
+                                            <input [formControl]="balanceControl" matInput placeholder="" type="text">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+
+                                        <th>
+                                            Item
+                                        </th>
+                                        <th>
+                                            Unit Price
+                                        </th>
+                                        <th>
+                                            Qty
+                                        </th>
+                                        <th>
+                                            Total
+                                        </th>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let detail of sale.details">
+                                            <td>
+                                                {{detail.item.name + '(' + detail.item.itemId + ')'}}
+                                            </td>
+                                            <td>
+                                                {{detail.unitPrice}}
+                                            </td>
+                                            <td>
+                                                {{detail.qty}}
+                                            </td>
+                                            <td class="text-primary">
+                                                {{detail.total}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
