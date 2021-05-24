@@ -54,6 +54,7 @@ public class SaleService {
                 saleDetail.setUnitPrice(unitPrice);
                 saleDetail.setTotal(total);
                 saleDetail.setSale(sale);
+                saleDetail.setQty(itemInCart.getQty());
                 saleDetailList.add(saleDetail);
 
                 totalBill = totalBill.add(total);
@@ -97,5 +98,10 @@ public class SaleService {
             sales = this.saleRepository.findPreviousSales(from, to);
         }
         return sales;
+    }
+
+    public Optional<Sale> getSale(long id){
+
+        return this.saleRepository.findById(id);
     }
 }

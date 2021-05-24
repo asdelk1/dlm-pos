@@ -43,9 +43,13 @@ export class CreateItemComponent implements OnInit {
     console.log(this.form.value);
     const item: Item = this.form.value as Item;
     this.itemService.saveItem(item).subscribe((newItem: Item) => {
-      this.notifications.showNotification("New Item saved successfully.", NotificationType.SUCCESS);
+      this.notifications.showNotification("Item saved successfully.", NotificationType.SUCCESS);
       this.routes.navigate(["/items"]);
     });
+  }
+
+  public onCancel(): void {
+    this.routes.navigate(["/items"]);
   }
 
 

@@ -32,8 +32,7 @@ import { SaleDetailComponent } from './history/sale-detail/sale-detail.component
     ],
     declarations: [
         AppComponent,
-        AdminLayoutComponent,
-        SaleDetailComponent
+        AdminLayoutComponent
     ],
     providers: [],
     bootstrap: [AppComponent]

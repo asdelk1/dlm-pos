@@ -8,7 +8,6 @@ import {UserProfileComponent} from '../../user-profile/user-profile.component';
 import {TableListComponent} from '../../table-list/table-list.component';
 import {TypographyComponent} from '../../typography/typography.component';
 import {IconsComponent} from '../../icons/icons.component';
-import {MapsComponent} from '../../maps/maps.component';
 import {NotificationsComponent} from '../../notifications/notifications.component';
 import {UpgradeComponent} from '../../upgrade/upgrade.component';
 import {MatButtonModule} from '@angular/material/button';
@@ -23,6 +22,8 @@ import {SaleComponent} from "../../sale/sale.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {HistoryComponent} from "../../history/history.component";
+import {SaleDetailComponent} from "../../history/sale-detail/sale-detail.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
     imports: [
@@ -38,7 +39,8 @@ import {HistoryComponent} from "../../history/history.component";
         MatTooltipModule,
         MatAutocompleteModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatCheckboxModule
     ],
     declarations: [
         DashboardComponent,
@@ -46,13 +48,13 @@ import {HistoryComponent} from "../../history/history.component";
         TableListComponent,
         TypographyComponent,
         IconsComponent,
-        MapsComponent,
         NotificationsComponent,
         UpgradeComponent,
         ItemsComponent,
         CreateItemComponent,
         SaleComponent,
-        HistoryComponent
+        HistoryComponent,
+        SaleDetailComponent
     ]
 })
 

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,5 +15,6 @@ public class SaleDTO {
     private BigDecimal total;
     private BigDecimal amountReceived;
     private BigDecimal balance;
-   private long itemCount;
+    private long itemCount;
+    private List<SaleDetailDTO> details;
 }

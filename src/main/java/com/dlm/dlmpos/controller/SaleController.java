@@ -1,6 +1,7 @@
 package com.dlm.dlmpos.controller;
 
 import com.dlm.dlmpos.dto.SaleDTO;
+import com.dlm.dlmpos.dto.SaleDetailDTO;
 import com.dlm.dlmpos.dto.ShoppingCartDTO;
 import com.dlm.dlmpos.dto.ShoppingCartItemDTO;
 import com.dlm.dlmpos.entity.Sale;
@@ -19,6 +20,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,6 +51,19 @@ public class SaleController {
         response.setHeader("Content-Disposition", "inline; filename=\"receipt.pdf\"");
         OutputStream out = response.getOutputStream();
         this.saleService.exportReceipt(id, out);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SaleDTO> getSale(@PathVariable long id){
+
+        Optional<Sale> sale = this.saleService.getSale(id);
+        if(sale.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        SaleDTO dto = this.mapper.map(sale.get(), SaleDTO.class);
+        dto.setTimestamp(sale.get().getTimestamp().format(DateTimeFormatter.ISO_DATE_TIME));
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/history")
