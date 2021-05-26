@@ -12,6 +12,11 @@ import {AppComponent} from './app.component';
 import {AgmCoreModule} from '@agm/core';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {LoginComponent} from './login/login.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {MatRippleModule} from "@angular/material/core";
 
 
 @NgModule({
@@ -27,11 +32,19 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
         AgmCoreModule.forRoot({
             apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
         }),
-        NgbModule
+        NgbModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
     declarations: [
         AppComponent,
-        AdminLayoutComponent
+        AdminLayoutComponent,
+        LoginComponent
     ],
     providers: [],
     bootstrap: [AppComponent]
