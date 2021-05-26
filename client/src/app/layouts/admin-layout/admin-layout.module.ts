@@ -24,6 +24,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {HistoryComponent} from "../../history/history.component";
 import {SaleDetailComponent} from "../../history/sale-detail/sale-detail.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {AddUserComponent} from "../../user-profile/add-user/add-user.component";
 
 @NgModule({
     imports: [
@@ -54,7 +55,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         CreateItemComponent,
         SaleComponent,
         HistoryComponent,
-        SaleDetailComponent
+        SaleDetailComponent,
+        AddUserComponent
     ]
 })
 
