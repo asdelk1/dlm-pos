@@ -22,4 +22,8 @@ export class UserService {
         const url: string = `${this.api.getBaseURL()}/save-user`;
         return this.http.post<User>(url, user);
     }
+
+    public isAuthenticated(username: string, password: string): Observable<boolean>{
+        return this.http.get<boolean>()
+    }
 }

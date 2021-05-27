@@ -1,5 +1,6 @@
 package com.dlm.dlmpos.controller;
 
+import com.dlm.dlmpos.dto.CredentialsDTO;
 import com.dlm.dlmpos.dto.UserDTO;
 import com.dlm.dlmpos.entity.User;
 import com.dlm.dlmpos.service.UserService;
@@ -32,6 +33,13 @@ public class AdminController {
         List<User> list = this.userService.listUser();
         List<UserDTO> dtoList = list.stream().map(u -> this.modelMapper.map(u, UserDTO.class)).collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> logIn(@Valid @RequestBody CredentialsDTO credential){
+
+        // for now check the db for given user name, if there is a matting user name then return true.
+        return ResponseEntity.ok(new User());
     }
 
     @PostMapping("/save-user")
