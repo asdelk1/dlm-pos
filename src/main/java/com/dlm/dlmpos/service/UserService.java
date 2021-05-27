@@ -32,6 +32,14 @@ public class UserService implements UserDetailsService {
         return this.userRepository.findAll();
     }
 
+    public Optional<User> getUser(String username){
+        return this.userRepository.findByUsername(username);
+    }
+
+    public Optional<User> getUser(Long id){
+        return  this.userRepository.findById(id);
+    }
+
     public void deleteUser(long id){
         User user = this.userRepository.findById(id).get();
         this.userRepository.delete(user);

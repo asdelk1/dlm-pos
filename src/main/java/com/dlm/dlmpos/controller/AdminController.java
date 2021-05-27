@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -65,6 +66,17 @@ public class AdminController {
                 .buildAndExpand(createdUser.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<User> getUser(@PathVariable String username){
+
+        Optional<User> user = this.userService.getUser(username);
+        if(user.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(user.get());
     }
 
     @PostConstruct
