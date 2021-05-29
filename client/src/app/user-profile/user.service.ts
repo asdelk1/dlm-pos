@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpHeaders} from "@angular/common/http";
 import {ApiService} from "../api/api.service";
 import {Observable} from "rxjs";
 import {User} from "./user.model.";
 import "rxjs-compat/add/observable/of";
+import {filter, tap} from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import "rxjs-compat/add/observable/of";
 export class UserService {
 
     private _loggedInUser: User;
+    private _isAuthenticated: boolean;
 
     public set loggedInUser(user: User) {
         if (!this._loggedInUser) {
@@ -20,6 +22,14 @@ export class UserService {
 
     public get loggedInUser(): User {
         return this._loggedInUser;
+    }
+
+    public set isAuthenticated(value: boolean){
+        this._isAuthenticated = value;
+    }
+
+    public get isAuthenticated(): boolean {
+        return this._isAuthenticated;
     }
 
     constructor(private http: HttpClient,
@@ -36,21 +46,26 @@ export class UserService {
         return this.http.post<User>(url, user);
     }
 
-    public getUser(username: string, password: string): Observable<User> {
-
-        //  const url: string = `${this.api.getBaseURL()}\users\${username}`;
-        //  const options: any = {
-        //      headers: new HttpHeaders({"Authorization": "Basic "+ btoa(username+":"+password)})
-        //  };
-        // return this.http.get<User>(url, options);
-
-        const user = {
-            id: 1,
-            username: "admin",
-            password: "Admin111",
-            admin: true
+    public login(username: string, password: string): Observable<boolean>{
+        const url: string = `${this.api.getBaseURL()}/login`;
+        const body: Object = {
+            username: username,
+            password: password
         };
+        return this.http.post<boolean>(url, body).pipe(
+            tap(() => {
+                sessionStorage.setItem('token', btoa(username + ':' + password));
+                this.isAuthenticated = true;
+              this.getLoggedInUser(username)
+            })
+        );
+    }
 
-        return Observable.of(user);
+    private getLoggedInUser(username: string): void{
+
+        const url: string = `${this.api.getBaseURL()}/users/${username}`;
+        this.http.get<User>(url).subscribe(
+            (user: User) => this.loggedInUser = user
+        );
     }
 }

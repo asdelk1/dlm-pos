@@ -1,7 +1,7 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 
@@ -17,6 +17,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
+import {AuthInterceptor} from "./interceptors/auth-interceptor";
 
 
 @NgModule({
@@ -46,7 +47,7 @@ import {MatRippleModule} from "@angular/material/core";
         AdminLayoutComponent,
         LoginComponent
     ],
-    providers: [],
+    providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
     bootstrap: [AppComponent]
 })
 export class AppModule {

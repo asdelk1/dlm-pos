@@ -4,6 +4,7 @@ import com.dlm.dlmpos.dto.CredentialsDTO;
 import com.dlm.dlmpos.dto.UserDTO;
 import com.dlm.dlmpos.entity.User;
 import com.dlm.dlmpos.service.UserService;
+import org.bouncycastle.util.encoders.Base64;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,14 +26,14 @@ public class AdminController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final PasswordEncoder encoder;
+
 
     public AdminController(UserService userService,
-                           ModelMapper modelMapper,
-                           PasswordEncoder encoder) {
+                           ModelMapper modelMapper
+    ) {
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.encoder = encoder;
+
     }
 
     @GetMapping("/users")
@@ -42,10 +45,11 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> logIn(@Valid @RequestBody CredentialsDTO credential) {
+    public boolean logIn(@RequestBody CredentialsDTO credential) {
 
         // for now check the db for given user name, if there is a matting user name then return true.
-        return ResponseEntity.ok(new User());
+        Optional<User> user = this.userService.getUser(credential.getUsername());
+        return user.isPresent();
     }
 
     @PostMapping("/save-user")
@@ -57,7 +61,7 @@ public class AdminController {
 
         User user = new User();
         user.setUsername(dto.getUsername());
-        user.setPassword(this.encoder.encode(dto.getPassword()));
+        user.setPassword(Base64.encode(dto.getPassword().getBytes()));
         user.setAdmin(dto.isAdmin());
 
         User createdUser = this.userService.saveUser(user);
@@ -68,23 +72,22 @@ public class AdminController {
         return ResponseEntity.created(uri).build();
     }
 
-    @GetMapping("/user/{username}")
-    public ResponseEntity<User> getUser(@PathVariable String username){
+    @GetMapping("/users/{username}")
+    public ResponseEntity<User> getUser(@PathVariable String username) {
 
         Optional<User> user = this.userService.getUser(username);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(user.get());
     }
 
     @PostConstruct
     private void addDefaultUser() {
-        if (!this.userService.isUserExists("Admin")) {
+        if (!this.userService.isUserExists("admin")) {
             User user = new User();
-            user.setUsername("Admin");
-            user.setPassword(this.encoder.encode("Admin"));
+            user.setUsername("admin");
+            user.setPassword(Base64.encode("{noob}admin".getBytes()));
             user.setAdmin(true);
 
             this.userService.saveUser(user);

@@ -2,6 +2,7 @@ package com.dlm.dlmpos.service;
 
 import com.dlm.dlmpos.entity.User;
 import com.dlm.dlmpos.repository.UserRepository;
+import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
@@ -25,7 +26,7 @@ public class UserPasswordService implements UserDetailsPasswordService {
         if(user.isEmpty()){
             return null;
         }
-        user.get().setPassword(s);
+        user.get().setPassword(Base64.encode(s.getBytes()));
         return org.springframework.security.core.userdetails.User.withUsername(user.get().getUsername())
                 .roles("")
                 .password(s)
