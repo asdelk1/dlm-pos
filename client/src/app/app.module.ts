@@ -1,7 +1,7 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 
@@ -12,7 +12,12 @@ import {AppComponent} from './app.component';
 import {AgmCoreModule} from '@agm/core';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { SaleDetailComponent } from './history/sale-detail/sale-detail.component';
+import {LoginComponent} from './login/login.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {MatRippleModule} from "@angular/material/core";
+import {AuthInterceptor} from "./interceptors/auth-interceptor";
 
 
 @NgModule({
@@ -28,13 +33,21 @@ import { SaleDetailComponent } from './history/sale-detail/sale-detail.component
         AgmCoreModule.forRoot({
             apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
         }),
-        NgbModule
+        NgbModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
     declarations: [
         AppComponent,
-        AdminLayoutComponent
+        AdminLayoutComponent,
+        LoginComponent
     ],
-    providers: [],
+    providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
     bootstrap: [AppComponent]
 })
 export class AppModule {

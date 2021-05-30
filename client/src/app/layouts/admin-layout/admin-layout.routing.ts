@@ -12,10 +12,16 @@ import {CreateItemComponent} from "../../items/create-item/create-item.component
 import {SaleComponent} from "../../sale/sale.component";
 import {HistoryComponent} from "../../history/history.component";
 import {SaleDetailComponent} from "../../history/sale-detail/sale-detail.component";
+import {AddUserComponent} from "../../user-profile/add-user/add-user.component";
 
 export const AdminLayoutRoutes: Routes = [
     {path: 'dashboard', component: DashboardComponent},
-    {path: 'user-profile', component: UserProfileComponent},
+    {
+        path: 'user-profile',
+    children: [
+        {path: '', component: UserProfileComponent},
+        {path: 'add', component: AddUserComponent}
+    ]},
     {path: 'table-list', component: TableListComponent},
     {path: 'typography', component: TypographyComponent},
     {path: 'icons', component: IconsComponent},
