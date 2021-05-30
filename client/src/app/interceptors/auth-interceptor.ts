@@ -11,8 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const token: string = sessionStorage.getItem("token")
-        if(token){
+        if(this.userService.isAuthenticated){
             let headers: HttpHeaders = new HttpHeaders({
                 'Authorization': 'Basic ' + sessionStorage.getItem('token')
             });

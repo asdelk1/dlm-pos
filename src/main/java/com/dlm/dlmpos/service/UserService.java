@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService  {
+public class UserService implements UserDetailsService {
 
     public final UserRepository userRepository;
 
@@ -45,4 +45,19 @@ public class UserService  {
         this.userRepository.delete(user);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
+        Optional<User> user = this.userRepository.findByUsername(s);
+        if(user.isEmpty()){
+            return null;
+        }
+
+        String password = "{noop}"+user.get().getPassword();
+
+        return org.springframework.security.core.userdetails.User.withUsername(user.get().getUsername())
+                .password(password)
+                .roles("")
+                .build();
+    }
 }

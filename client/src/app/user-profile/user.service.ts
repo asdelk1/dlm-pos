@@ -46,26 +46,24 @@ export class UserService {
         return this.http.post<User>(url, user);
     }
 
-    public login(username: string, password: string): Observable<boolean>{
+    public login(username: string, password: string): Observable<User | null>{
         const url: string = `${this.api.getBaseURL()}/login`;
+        const encryptedPassword: string = btoa(password);
+
         const body: Object = {
             username: username,
-            password: password
+            password: encryptedPassword
         };
-        return this.http.post<boolean>(url, body).pipe(
-            tap(() => {
-                sessionStorage.setItem('token', btoa(username + ':' + password));
-                this.isAuthenticated = true;
-              this.getLoggedInUser(username)
+        return this.http.post<User | null>(url, body).pipe(
+            tap((res: User | null) => {
+                if(res){
+                    sessionStorage.setItem('token', btoa(username + ':' + encryptedPassword));
+                    this.isAuthenticated = true;
+                    this.loggedInUser = res;
+                }
             })
         );
     }
 
-    private getLoggedInUser(username: string): void{
 
-        const url: string = `${this.api.getBaseURL()}/users/${username}`;
-        this.http.get<User>(url).subscribe(
-            (user: User) => this.loggedInUser = user
-        );
-    }
 }

@@ -45,11 +45,20 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public boolean logIn(@RequestBody CredentialsDTO credential) {
+    public ResponseEntity<UserDTO> logIn(@RequestBody CredentialsDTO credential) {
 
         // for now check the db for given user name, if there is a matting user name then return true.
         Optional<User> user = this.userService.getUser(credential.getUsername());
-        return user.isPresent();
+        if(user.isPresent() && user.get().getPassword().equals(credential.getPassword())){
+            UserDTO dto = new UserDTO();
+            dto.setId(user.get().getId());
+            dto.setUsername(user.get().getUsername());
+            dto.setAdmin(user.get().isAdmin());
+
+            return ResponseEntity.ok(dto);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/save-user")
@@ -61,7 +70,7 @@ public class AdminController {
 
         User user = new User();
         user.setUsername(dto.getUsername());
-        user.setPassword(Base64.encode(dto.getPassword().getBytes()));
+        user.setPassword(dto.getPassword());
         user.setAdmin(dto.isAdmin());
 
         User createdUser = this.userService.saveUser(user);
@@ -87,7 +96,7 @@ public class AdminController {
         if (!this.userService.isUserExists("admin")) {
             User user = new User();
             user.setUsername("admin");
-            user.setPassword(Base64.encode("{noob}admin".getBytes()));
+            user.setPassword("YWRtaW4=");
             user.setAdmin(true);
 
             this.userService.saveUser(user);
