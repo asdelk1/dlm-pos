@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
                     alert('Authentication is failed');
                 }
             },
-            (error => console.log('here is my error ' + error))
+            (error) => console.log('here is my error ' + JSON.stringify(error))
         )
     }
 

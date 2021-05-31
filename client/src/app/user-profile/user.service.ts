@@ -55,6 +55,11 @@ export class UserService {
         return this.http.post<User>(url, user);
     }
 
+    public deleteUser(user: User): Observable<void> {
+        const url: string = `${this.api.getBaseURL()}/delete-user/${user.id}`;
+        return this.http.delete<void>(url);
+    }
+
     public login(username: string, password: string): Observable<User | null> {
         const url: string = `${this.api.getBaseURL()}/login`;
         const encryptedPassword: string = btoa(password);

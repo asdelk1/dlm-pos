@@ -81,6 +81,12 @@ public class AdminController {
         return ResponseEntity.created(uri).build();
     }
 
+    @DeleteMapping("/delete-user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable long id){
+        this.userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/users/{username}")
     public ResponseEntity<User> getUser(@PathVariable String username) {
 
