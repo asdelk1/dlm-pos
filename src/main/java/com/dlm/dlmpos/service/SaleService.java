@@ -32,7 +32,7 @@ public class SaleService {
         this.saleRepository = saleRepository;
     }
 
-    public void saveShoppingCart(ShoppingCartDTO cart) {
+    public Sale saveShoppingCart(ShoppingCartDTO cart) {
 
         Sale sale = new Sale();
         sale.setTimestamp(LocalDateTime.now());
@@ -68,6 +68,8 @@ public class SaleService {
             this.saleRepository.save(sale);
             this.repository.saveAll(saleDetailList);
         }
+
+        return sale;
     }
 
     public void exportReceipt(long id, OutputStream out) throws JRException {

@@ -37,11 +37,13 @@ public class SaleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<URI> addSale(@RequestBody ShoppingCartDTO sale){
+    public ResponseEntity<SaleDTO> addSale(@RequestBody ShoppingCartDTO shoppingCart){
 
-        this.saleService.saveShoppingCart(sale);
+        Sale sale = this.saleService.saveShoppingCart(shoppingCart);
+        SaleDTO dto = new SaleDTO();
+        dto.setId(sale.getId());
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}/print")

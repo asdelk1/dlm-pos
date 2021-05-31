@@ -138,10 +138,10 @@
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="50">
+	<pageFooter>
+		<band height="54" splitType="Stretch">
 			<line>
-				<reportElement x="445" y="10" width="130" height="1" uuid="9bbe8883-2463-4c2a-99de-219797c3ad5b">
+				<reportElement x="440" y="5" width="130" height="1" uuid="028d0f4b-9d6e-419e-a045-45ca150590a6">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -150,7 +150,7 @@
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="445" y="36" width="130" height="1" uuid="0a40f655-74ea-4029-8fd9-72aceada8022">
+				<reportElement x="440" y="31" width="130" height="1" uuid="7b4c5e25-a7f9-4b93-956d-aac768f44d7e">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -159,16 +159,13 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="475" y="15" width="100" height="14" uuid="cd94c3fb-419f-44f9-9621-f6fef3ec295f"/>
+				<reportElement x="470" y="10" width="100" height="14" uuid="2df94715-70a0-479a-9882-245767e63547"/>
 				<textFieldExpression><![CDATA[$P{totalBill}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="15" y="15" width="100" height="14" uuid="efab4a25-8ab4-40e0-b294-d4c28d506674"/>
+				<reportElement x="10" y="10" width="100" height="14" uuid="7cc9cc4a-e53d-4aa3-b42e-ece2b38256ee"/>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 		</band>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 </jasperReport>
