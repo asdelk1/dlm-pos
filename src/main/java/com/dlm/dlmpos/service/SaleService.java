@@ -1,5 +1,6 @@
 package com.dlm.dlmpos.service;
 
+import com.dlm.dlmpos.dto.Receipt;
 import com.dlm.dlmpos.dto.ShoppingCartDTO;
 import com.dlm.dlmpos.dto.ShoppingCartItemDTO;
 import com.dlm.dlmpos.entity.Item;
@@ -80,9 +81,12 @@ public class SaleService {
         }
 
         Sale sale = saleOpt.get();
-        InputStream is = this.getClass().getResourceAsStream("/reports/receipt.jrxml");
+        InputStream is = this.getClass().getResourceAsStream("/reports/thermal.jrxml");
         final JasperReport reports = JasperCompileManager.compileReport(is);
-        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(sale.getDetails());
+
+        Receipt receipt = new Receipt(sale.getDetails());
+
+        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(Collections.singleton(receipt));
         final Map<String, Object> params = new HashMap<>();
         params.put("timestamp", sale.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE));
         params.put("totalBill", sale.getTotal().toPlainString());
