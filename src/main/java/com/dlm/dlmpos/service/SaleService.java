@@ -84,7 +84,12 @@ public class SaleService {
         InputStream is = this.getClass().getResourceAsStream("/reports/thermal.jrxml");
         final JasperReport reports = JasperCompileManager.compileReport(is);
 
-        Receipt receipt = new Receipt(sale.getDetails());
+        Receipt receipt = new Receipt(
+                sale.getId(),
+                sale.getTotal(),
+                sale.getAmountReceived(),
+                sale.getBalance(),
+                sale.getDetails());
 
         final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(Collections.singleton(receipt));
         final Map<String, Object> params = new HashMap<>();
