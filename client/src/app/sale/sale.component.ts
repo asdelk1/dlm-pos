@@ -114,10 +114,10 @@ export class SaleComponent implements OnInit {
             take(1)
         ).subscribe(
             (response: any) => {
-                let blob = new Blob([response], {type: "application/pdf"});
-                let url = window.URL.createObjectURL(blob);
-                let pwa = window.open(url);
-                pwa.print();
+                // let blob = new Blob([response], {type: "application/pdf"});
+                // let url = window.URL.createObjectURL(blob);
+                // let pwa = window.open(url);
+                // pwa.print();
             });
     }
 }
