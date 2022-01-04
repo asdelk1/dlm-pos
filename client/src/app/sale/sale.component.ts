@@ -26,6 +26,9 @@ export class SaleComponent implements OnInit {
     @ViewChild("modalData")
     public saleDialog: ElementRef;
 
+    @ViewChild("listItemsModal")
+    public listItemDialog: ElementRef;
+
     public form: FormGroup = new FormGroup({
         "item": new FormControl("", [Validators.required]),
         "qty": new FormControl("", [Validators.required])
@@ -120,4 +123,14 @@ export class SaleComponent implements OnInit {
                 // pwa.print();
             });
     }
+
+    public listItems(): void {
+        this.modalService.open(this.listItemDialog).result.then(
+            (item: any) => {
+                this.form.get('item').setValue(item.itemId);
+            },
+            () => {}
+        );
+    }
+
 }

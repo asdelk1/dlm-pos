@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <button class="btn btn-sm btn-info" [routerLink]="'add'">Add Item</button>
+                            <button *ngIf="showCreate" class="btn btn-sm btn-info" [routerLink]="'add'">Add Item</button>
 
                         </div>
                         <div class="table-responsive">
@@ -35,7 +35,8 @@
                                 <tbody>
                                 <tr *ngFor="let item of items">
                                     <td>
-                                        <a class="btn btn-outline-warning btn-sm" [routerLink]="[item.id]"><i class="material-icons">info</i></a>
+                                        <button class="btn btn-outline-warning btn-sm" (click)="onItemActionClicked(item)">
+                                            <i class="material-icons">{{selectable ? 'touch_app' : 'info'}}</i></button>
                                     </td>
                                     <td>
                                         {{item.itemId}}
