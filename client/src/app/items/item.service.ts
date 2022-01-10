@@ -31,4 +31,7 @@ export class ItemService {
         return this.httpClient.get<Item>(url);
     }
 
+    public listItemTypes(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.baseURL + '/item-types');
+    }
 }

@@ -125,7 +125,7 @@ export class SaleComponent implements OnInit {
     }
 
     public listItems(): void {
-        this.modalService.open(this.listItemDialog).result.then(
+        this.modalService.open(this.listItemDialog, {size: 'xl'}).result.then(
             (item: any) => {
                 this.form.get('item').setValue(item.itemId);
             },

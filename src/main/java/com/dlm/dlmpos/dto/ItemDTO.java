@@ -15,4 +15,5 @@ public class ItemDTO {
     private String description;
     private BigDecimal unitPrice;
     private boolean active;
+    private String type;
 }

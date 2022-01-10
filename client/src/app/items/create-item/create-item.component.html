@@ -36,6 +36,25 @@
                                 </div>
 
                                 <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Type</mat-label>
+                                        <input matInput
+                                               aria-label="State"
+                                               [matAutocomplete]="auto"
+                                               formControlName="type">
+
+                                        <mat-autocomplete #auto="matAutocomplete"
+                                                          (optionSelected)="onSelectionChange()">
+                                            <mat-option *ngFor="let type of filteredItemTypes$ | async"
+                                                        [value]="type">
+                                                <!--                                                <img class="example-option-img" aria-hidden [src]="state.flag" height="25">-->
+                                                <span>{{type}}</span>
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
                                     <mat-checkbox formControlName="active" class="example-margin">Active</mat-checkbox>
                                 </div>
                             </div>

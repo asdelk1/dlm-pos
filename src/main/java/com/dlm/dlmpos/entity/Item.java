@@ -18,4 +18,5 @@ public class Item {
     private String description;
     private BigDecimal unitPrice;
     private boolean active;
+    private String type;
 }
