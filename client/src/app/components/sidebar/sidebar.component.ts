@@ -15,6 +15,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/items', title: 'Items',  icon: 'dns', class: '', adminOnly: true  },
     { path: '/history', title: 'Previous Sales',  icon: 'restore', class: '', adminOnly: true  },
     { path: '/user-profile', title: 'User Profile',  icon:'person', class: '', adminOnly: true  },
+    { path: '/backup', title: 'Backup Data',  icon:'add_to_drive', class: '', adminOnly: true  },
 ];
 
 @Component({

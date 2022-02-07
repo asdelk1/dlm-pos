@@ -6,6 +6,7 @@ import {SaleComponent} from "../../sale/sale.component";
 import {HistoryComponent} from "../../history/history.component";
 import {SaleDetailComponent} from "../../history/sale-detail/sale-detail.component";
 import {AddUserComponent} from "../../user-profile/add-user/add-user.component";
+import {BackupUpComponent} from '../../backup-up/backup-up.component';
 
 export const AdminLayoutRoutes: Routes = [
     {
@@ -33,6 +34,12 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {path: '', component: HistoryComponent},
             {path: ':id', component: SaleDetailComponent}
+        ]
+    },
+    {
+        path: 'backup',
+        children: [
+            {path: '', component: BackupUpComponent},
         ]
     },
 ];
