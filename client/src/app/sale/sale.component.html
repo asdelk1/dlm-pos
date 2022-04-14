@@ -24,43 +24,48 @@
                         <h6 class="card-category text-gray text-center">New Item</h6>
                         <form [formGroup]="form" (ngSubmit)="addToCart()">
                             <div class="row">
-                                <div class="col-md-10">
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Item</mat-label>
-                                        <input matInput
-                                               aria-label="State"
-                                               [matAutocomplete]="auto"
-                                               formControlName="item">
+                                <div class="input-group">
+                                    <div class="col-md-10">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Item</mat-label>
+                                            <input matInput
+                                                   aria-label="State"
+                                                   [matAutocomplete]="auto"
+                                                   formControlName="item">
 
-                                        <mat-autocomplete #auto="matAutocomplete"
-                                                          (optionSelected)="onSelectionChange()">
-                                            <mat-option *ngFor="let item of filteredItems | async"
-                                                        [value]="item.itemId">
-                                                <!--                                                <img class="example-option-img" aria-hidden [src]="state.flag" height="25">-->
-                                                <span>{{item.name}}</span> |
-                                                <small>{{item.itemId}}</small>
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-md-2">
-                                    <button (click)="listItems()" mat-raised-button type="button" class="btn btn-xs btn-default">
-                                        <i class="material-icons">list</i>
-                                    </button>
+                                            <mat-autocomplete #auto="matAutocomplete"
+                                                              (optionSelected)="onSelectionChange()">
+                                                <mat-option *ngFor="let item of filteredItems | async"
+                                                            [value]="item.itemId">
+                                                    <!--                                                <img class="example-option-img" aria-hidden [src]="state.flag" height="25">-->
+                                                    <span>{{item.name}}</span> |
+                                                    <small>{{item.itemId}}</small>
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button (click)="listItems()" mat-raised-button type="button"
+                                                class="btn btn-xs btn-default pull-right">
+                                            <i class="material-icons">list</i>
+                                        </button>
+                                    </div>
                                 </div>
 
                             </div>
                             <div class="row">
-                                <div class="col-md-10">
-                                    <mat-form-field class="example-full-width">
-                                        <input formControlName="qty" matInput placeholder="Qty" type="number">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-lg-2">
-                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right"
-                                            [disabled]="form.invalid">
-                                        <i class="material-icons">add_circle</i>
-                                    </button>
+                                <div class="input-group">
+                                    <div class="col-md-10">
+                                        <mat-form-field class="example-full-width">
+                                            <input formControlName="qty" matInput placeholder="Qty" type="number">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                                [disabled]="form.invalid">
+                                            <i class="material-icons">add_circle</i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -169,22 +174,22 @@
 
 <ng-template #listItemsModal let-modal>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="modal-header">
-                <h4 class="modal-title" id="list-items-modal-title">Select an Item</h4>
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="list-items-modal-title">Select an Item</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
 
-            <app-items [selectable]="true" [showCreate]="false" (itemSelected)="modal.close($event)"></app-items>
-            <div class="modal-footer">
+                <app-items [selectable]="true" [showCreate]="false" (itemSelected)="modal.close($event)"></app-items>
+                <div class="modal-footer">
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 </ng-template>

@@ -6,6 +6,8 @@ import com.dlm.dlmpos.entity.User;
 import com.dlm.dlmpos.repository.BackupLogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -59,7 +61,7 @@ public class BackupService {
     }
 
     public List<BackupLogEntry> getLogEntries() {
-        return this.repository.findAll();
+        return this.repository.findAll(PageRequest.of(0, 30, Sort.by(Sort.Direction.DESC, "id"))).getContent();
     }
 
     private void logBackupAction(String fileName) {

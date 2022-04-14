@@ -26,6 +26,7 @@ import javax.validation.Valid;
 import java.io.*;
 import java.net.URI;
 import java.net.URLConnection;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -111,7 +112,11 @@ public class AdminController {
     @GetMapping("/database/backups")
     public ResponseEntity<List<BackupLogEntryDTO>> getEntries() {
         List<BackupLogEntry> list = this.backupService.getLogEntries();
-        List<BackupLogEntryDTO> dtoList = list.stream().map(e -> this.modelMapper.map(e, BackupLogEntryDTO.class)).collect(Collectors.toList());
+        List<BackupLogEntryDTO> dtoList = list.stream().map(e -> {
+            BackupLogEntryDTO dto = this.modelMapper.map(e, BackupLogEntryDTO.class);
+            dto.setTime(e.getTime().format(DateTimeFormatter.ISO_DATE_TIME));
+            return dto;
+        }).collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
 
@@ -147,7 +152,7 @@ public class AdminController {
         FileDownloadDTO dto = this.backupService.backupDatabase();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION,  String.format("attachment; filename=\"%s\"", dto.getFile().getName()));
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=\"%s\"", dto.getFile().getName()));
 //        String mediaTypeStr = URLConnection.guessContentTypeFromName(dto.getFile().getName());
 //        if(mediaTypeStr == null){
 //            mediaTypeStr = MediaType.APPLICATION_OCTET_STREAM_VALUE;

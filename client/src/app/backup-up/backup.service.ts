@@ -31,6 +31,6 @@ export class BackupService {
         const options: any = {
             responseType: 'blob'
         };
-        return this.http.post<any>(url, {});
+        return this.http.post<any>(url, {}, options);
     }
 }

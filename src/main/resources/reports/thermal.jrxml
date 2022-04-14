@@ -38,7 +38,7 @@
 	<field name="balance" class="java.math.BigDecimal"/>
 	<field name="receivedAmount" class="java.math.BigDecimal"/>
 	<title>
-		<band height="54" splitType="Prevent">
+		<band height="45" splitType="Prevent">
 			<staticText>
 				<reportElement mode="Transparent" x="14" y="0" width="181" height="18" uuid="2bb2bbc1-b5ee-4767-ba50-7ffab6aa2b9d"/>
 				<textElement textAlignment="Center">
@@ -47,7 +47,7 @@
 				<text><![CDATA[D L M HandLoom]]></text>
 			</staticText>
 			<line>
-				<reportElement x="15" y="52" width="180" height="1" uuid="05f240d4-0da0-432b-bdfb-44bd08480866">
+				<reportElement x="15" y="36" width="180" height="1" uuid="05f240d4-0da0-432b-bdfb-44bd08480866">
 					<property name="com.jaspersoft.studio.unit.y" value="mm"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -57,14 +57,7 @@
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[323-A Moratuwa Rd,]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="14" y="30" width="181" height="20" uuid="08f3079e-8852-4782-bc46-36e67a970f10"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Suwarapola, Piliyandala]]></text>
+				<text><![CDATA[225, Horana Road, Alubomulla]]></text>
 			</staticText>
 		</band>
 	</title>
