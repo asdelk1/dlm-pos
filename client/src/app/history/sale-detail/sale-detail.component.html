@@ -77,13 +77,13 @@
                                                 {{detail.item.name + '(' + detail.item.itemId + ')'}}
                                             </td>
                                             <td>
-                                                {{detail.unitPrice}}
+                                                {{detail.unitPrice | currency: 'LKR' :'symbol-narrow'}}
                                             </td>
                                             <td>
                                                 {{detail.qty}}
                                             </td>
                                             <td class="text-primary">
-                                                {{detail.total}}
+                                                {{detail.total | currency: 'LKR' :'symbol-narrow'}}
                                             </td>
                                         </tr>
                                         </tbody>
