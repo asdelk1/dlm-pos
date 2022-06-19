@@ -10,6 +10,7 @@ import {AuthGuard} from "./gurads/auth-guard";
 const routes: Routes =[
   {
     path: '',
+    canActivate: [AuthGuard],
     redirectTo: 'sale',
     pathMatch: 'full',
   },

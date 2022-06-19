@@ -18,6 +18,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {AuthInterceptor} from "./interceptors/auth-interceptor";
+import { BackupUpComponent } from './backup-up/backup-up.component';
+import {APP_BASE_HREF} from '@angular/common';
 
 
 @NgModule({
@@ -45,9 +47,12 @@ import {AuthInterceptor} from "./interceptors/auth-interceptor";
     declarations: [
         AppComponent,
         AdminLayoutComponent,
-        LoginComponent
+        LoginComponent,
+        BackupUpComponent
     ],
-    providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

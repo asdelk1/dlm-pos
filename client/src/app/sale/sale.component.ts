@@ -4,7 +4,7 @@ import {Item} from "../items/item.model";
 import {SaleDetail} from "./sale.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
-import {map, startWith, take} from 'rxjs/operators';
+import {map, startWith, switchMap, take} from 'rxjs/operators';
 import {SaleService} from "./sale.service";
 import {NotificationsService, NotificationType} from "../notifications/notifications.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -25,6 +25,9 @@ export class SaleComponent implements OnInit {
 
     @ViewChild("modalData")
     public saleDialog: ElementRef;
+
+    @ViewChild("listItemsModal")
+    public listItemDialog: ElementRef;
 
     public form: FormGroup = new FormGroup({
         "item": new FormControl("", [Validators.required]),
@@ -76,6 +79,7 @@ export class SaleComponent implements OnInit {
     public resetCart(): void {
         this.total = 0.00;
         this.sales = [];
+        this.receivedAmount.reset("");
     }
 
     public addToCart(): void {
@@ -103,21 +107,30 @@ export class SaleComponent implements OnInit {
     }
 
     public receiveMoney(): void {
-        this.saleService.saveShoppingCart(this.receivedAmount.value, this.sales).pipe(take(1)).subscribe(
-            (items: string) => {
+
+        this.saleService.saveShoppingCart(this.receivedAmount.value, this.sales).pipe(take(1),
+            switchMap((sale: any) => {
                 this.notificationService.showNotification("Success", NotificationType.SUCCESS);
                 this.resetCart();
+                return this.saleService.printReceipt(sale.id);
+            }),
+            take(1)
+        ).subscribe(
+            (response: any) => {
+                // let blob = new Blob([response], {type: "application/pdf"});
+                // let url = window.URL.createObjectURL(blob);
+                // let pwa = window.open(url);
+                // pwa.print();
             });
     }
 
-    public printReceipt(): void {
-        this.saleService.printReceipt(11).subscribe(
-            (response: any) => {
-                let blob = new Blob([response], {type: "application/pdf"});
-                let url = window.URL.createObjectURL(blob);
-                let pwa = window.open(url);
-                pwa.print();
-            });
+    public listItems(): void {
+        this.modalService.open(this.listItemDialog, {size: 'xl'}).result.then(
+            (item: any) => {
+                this.form.get('item').setValue(item.itemId);
+            },
+            () => {}
+        );
     }
 
 }

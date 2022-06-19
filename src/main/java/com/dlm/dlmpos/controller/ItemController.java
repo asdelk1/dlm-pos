@@ -4,10 +4,8 @@ import com.dlm.dlmpos.dto.ItemDTO;
 import com.dlm.dlmpos.entity.Item;
 import com.dlm.dlmpos.service.ItemService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -41,7 +39,7 @@ public class ItemController {
 
         Optional<Item> item = this.itemService.get(id);
         ItemDTO dto = null;
-        if(item.isPresent()){
+        if (item.isPresent()) {
             dto = this.mapper.map(item.get(), ItemDTO.class);
         }
         return ResponseEntity.ok(dto);
@@ -57,6 +55,7 @@ public class ItemController {
         item.setDescription(itemDTO.getDescription());
         item.setUnitPrice(itemDTO.getUnitPrice());
         item.setActive(itemDTO.isActive());
+        item.setType(itemDTO.getType());
 
         Item createdItem = this.itemService.save(item);
 
@@ -68,5 +67,9 @@ public class ItemController {
         return ResponseEntity.created(uri).build();
     }
 
-
+    @GetMapping("/item-types")
+    public ResponseEntity<List<String>> getItemTypes() {
+        List<String> list = this.itemService.getItemTypes();
+        return ResponseEntity.ok(list);
+    }
 }

@@ -3,11 +3,13 @@ package com.dlm.dlmpos.service;
 import com.dlm.dlmpos.dto.ItemDTO;
 import com.dlm.dlmpos.entity.Item;
 import com.dlm.dlmpos.repository.ItemRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
@@ -39,4 +41,12 @@ public class ItemService {
 
         return item;
     }
+
+    public List<String> getItemTypes(){
+        return this.itemRepository.findAll().stream()
+                .filter(item -> item.getType() != null && !StringUtils.isBlank(item.getType()))
+                .map(Item::getType).collect(Collectors.toList());
+    }
+
+
 }

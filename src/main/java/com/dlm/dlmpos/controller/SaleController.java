@@ -37,20 +37,27 @@ public class SaleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<URI> addSale(@RequestBody ShoppingCartDTO sale){
+    public ResponseEntity<SaleDTO> addSale(@RequestBody ShoppingCartDTO shoppingCart){
 
-        this.saleService.saveShoppingCart(sale);
+        Sale sale = this.saleService.saveShoppingCart(shoppingCart);
+        SaleDTO dto = new SaleDTO();
+        dto.setId(sale.getId());
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("/{id}/print")
-    public void printReceipt(HttpServletResponse response,@PathVariable long id) throws IOException, JRException {
+//    @GetMapping("/{id}/print")
+//    public void printReceipt(HttpServletResponse response,@PathVariable long id) throws IOException, JRException {
+//
+//        response.setContentType("application/pdf");
+//        response.setHeader("Content-Disposition", "inline; filename=\"receipt.pdf\"");
+//        OutputStream out = response.getOutputStream();
+//        this.saleService.exportReceipt(id, out);
+//    }
 
-        response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "inline; filename=\"receipt.pdf\"");
-        OutputStream out = response.getOutputStream();
-        this.saleService.exportReceipt(id, out);
+    @GetMapping("/{id}/print")
+    public void printReceipt(@PathVariable long id) throws IOException, JRException {
+        this.saleService.exportReceipt(id);
     }
 
     @GetMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.dlm.dlmpos.service;
 
+import com.dlm.dlmpos.dto.Receipt;
 import com.dlm.dlmpos.dto.ShoppingCartDTO;
 import com.dlm.dlmpos.dto.ShoppingCartItemDTO;
 import com.dlm.dlmpos.entity.Item;
@@ -9,8 +10,19 @@ import com.dlm.dlmpos.repository.SaleDetailRepository;
 import com.dlm.dlmpos.repository.SaleRepository;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
 import org.springframework.stereotype.Service;
 
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.HashPrintServiceAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttributeSet;
+import javax.print.attribute.standard.OrientationRequested;
+import javax.print.attribute.standard.PrinterName;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -32,7 +44,7 @@ public class SaleService {
         this.saleRepository = saleRepository;
     }
 
-    public void saveShoppingCart(ShoppingCartDTO cart) {
+    public Sale saveShoppingCart(ShoppingCartDTO cart) {
 
         Sale sale = new Sale();
         sale.setTimestamp(LocalDateTime.now());
@@ -68,6 +80,8 @@ public class SaleService {
             this.saleRepository.save(sale);
             this.repository.saveAll(saleDetailList);
         }
+
+        return sale;
     }
 
     public void exportReceipt(long id, OutputStream out) throws JRException {
@@ -78,15 +92,82 @@ public class SaleService {
         }
 
         Sale sale = saleOpt.get();
-        InputStream is = this.getClass().getResourceAsStream("/reports/receipt.jrxml");
+        InputStream is = this.getClass().getResourceAsStream("/reports/thermal.jrxml");
         final JasperReport reports = JasperCompileManager.compileReport(is);
-        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(sale.getDetails());
+
+        Receipt receipt = new Receipt(
+                sale.getId(),
+                sale.getTotal(),
+                sale.getAmountReceived(),
+                sale.getBalance(),
+                sale.getDetails());
+
+        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(Collections.singleton(receipt));
         final Map<String, Object> params = new HashMap<>();
         params.put("timestamp", sale.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE));
         params.put("totalBill", sale.getTotal().toPlainString());
 
         JasperPrint print = JasperFillManager.fillReport(reports, params, source);
         JasperExportManager.exportReportToPdfStream(print, out);
+    }
+
+    public void exportReceipt(long id) throws JRException {
+        Optional<Sale> saleOpt = this.saleRepository.findById(id);
+        if (saleOpt.isEmpty()) {
+            return;
+        }
+
+        Sale sale = saleOpt.get();
+        InputStream is = this.getClass().getResourceAsStream("/reports/thermal.jrxml");
+        final JasperReport reports = JasperCompileManager.compileReport(is);
+
+        Receipt receipt = new Receipt(
+                sale.getId(),
+                sale.getTotal(),
+                sale.getAmountReceived(),
+                sale.getBalance(),
+                sale.getDetails());
+
+        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(Collections.singleton(receipt));
+        final Map<String, Object> params = new HashMap<>();
+        params.put("timestamp", sale.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        params.put("totalBill", sale.getTotal().toPlainString());
+
+        JasperPrint print = JasperFillManager.fillReport(reports, params, source);
+        this.directPrint(print);
+    }
+
+    public void directPrint(JasperPrint print) throws JRException {
+
+        PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+        printRequestAttributeSet.add(OrientationRequested.PORTRAIT);
+
+        PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
+        PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+        printServiceAttributeSet.add(new PrinterName(defaultPrintService.getName(), null));
+
+        JRPrintServiceExporter exporter = new JRPrintServiceExporter();
+        SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
+        configuration.setPrintRequestAttributeSet(printRequestAttributeSet);
+        configuration.setPrintServiceAttributeSet(printServiceAttributeSet);
+        configuration.setDisplayPageDialog(false);
+        configuration.setDisplayPrintDialog(false);
+
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setConfiguration(configuration);
+
+//        PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
+//        PrintService printService = null;
+//        if(services.length != 0 && services != null){
+//            printService = services[0];
+////            for(PrintService service : services){
+////               service.getName();
+////            }
+//        }
+
+        if(defaultPrintService != null){
+            exporter.exportReport();
+        }
     }
 
     public List<Sale> getHistory(LocalDate from, LocalDate to){

@@ -5,4 +5,5 @@ export interface Item {
     description: string;
     unitPrice: number;
     active: boolean;
+    type: string;
 }

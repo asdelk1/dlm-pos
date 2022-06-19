@@ -132,9 +132,9 @@ export class AdminLayoutComponent implements OnInit {
       this.runOnRouteChange();
   }
   isMaps(path){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
-      titlee = titlee.slice( 1 );
-      if(path == titlee){
+      var title = this.location.prepareExternalUrl(this.location.path());
+      title = title.slice( 1 );
+      if(path == title){
           return false;
       }
       else {

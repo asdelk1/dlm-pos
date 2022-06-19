@@ -30,7 +30,7 @@ export class AddUserComponent implements OnInit {
     const user: User = {
       id: null,
       username: this.form.value.username,
-      password: this.form.value.password,
+      password: btoa(this.form.value.password),
       admin: this.form.value.admin
     };
 
