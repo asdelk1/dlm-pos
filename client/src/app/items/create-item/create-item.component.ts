@@ -5,7 +5,7 @@ import {Item} from "../item.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NotificationsService, NotificationType} from "../../notifications/notifications.service";
 import {Observable, Subject} from 'rxjs';
-import {distinctUntilChanged} from 'rxjs/operators';
+import {distinctUntilChanged, startWith} from 'rxjs/operators';
 
 @Component({
     selector: 'app-create-item',
@@ -48,19 +48,7 @@ export class CreateItemComponent implements OnInit {
         }
 
         this.loadItemTypes();
-        this.form.get('type').valueChanges.pipe(
-            distinctUntilChanged()
-        ).subscribe(
-            (value: string) => {
-                let filteredTypes: string[];
-                if (this.itemTypes) {
-                    filteredTypes = this.itemTypes.filter((type: string) => type.includes(value));
-                } else {
-                    filteredTypes = [];
-                }
-                this._filteredItemTypes$.next(filteredTypes);
-            }
-        );
+
     }
 
     public onSubmit(): void {
@@ -81,7 +69,23 @@ export class CreateItemComponent implements OnInit {
     }
 
     public loadItemTypes(): void {
-        this.itemService.listItemTypes().subscribe((types: string[]) => this.itemTypes = types);
+        this.itemService.listItemTypes().subscribe((types: string[]) => {
+            this.itemTypes = types;
+            this.form.get('type').valueChanges.pipe(
+                startWith(''),
+                distinctUntilChanged()
+            ).subscribe(
+                (value: string) => {
+                    let filteredTypes: string[];
+                    if (this.itemTypes) {
+                        filteredTypes = this.itemTypes.filter((type: string) => type.includes(value));
+                    } else {
+                        filteredTypes = [];
+                    }
+                    this._filteredItemTypes$.next(filteredTypes);
+                }
+            );
+        });
     }
 
 

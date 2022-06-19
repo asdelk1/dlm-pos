@@ -81,7 +81,7 @@ clear
                                         {{item.description}}
                                     </td>
                                     <td class="text-primary">
-                                        {{item.unitPrice}}
+                                        {{item.unitPrice | currency: 'LKR':'symbol-narrow'}}
                                     </td>
                                     <td>
                                         <span *ngIf="item.active;else inActive"

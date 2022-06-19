@@ -50,9 +50,9 @@
                                     <td><a [routerLink]="[sale.id]" class="btn btn-xs btn-info"><i class="material-icons">info</i></a></td>
                                     <td>{{sale.id}}</td>
                                     <td>{{sale.timestamp | date: 'medium'}}</td>
-                                    <td>{{sale.total}}</td>
-                                    <td>{{sale.amountReceived}}</td>
-                                    <td>{{sale.balance}}</td>
+                                    <td>{{sale.total | currency: 'LKR':'symbol-narrow'}}</td>
+                                    <td>{{sale.amountReceived | currency: 'LKR':'symbol-narrow'}}</td>
+                                    <td>{{sale.balance | currency: 'LKR':'symbol-narrow'}}</td>
                                     <td>{{sale.itemCount}}</td>
                                 </tr>
                                 </tbody>

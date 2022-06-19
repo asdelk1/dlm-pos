@@ -43,7 +43,7 @@
                                                [matAutocomplete]="auto"
                                                formControlName="type">
 
-                                        <mat-autocomplete #auto="matAutocomplete"
+                                        <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
                                                           (optionSelected)="onSelectionChange()">
                                             <mat-option *ngFor="let type of filteredItemTypes$ | async"
                                                         [value]="type">
