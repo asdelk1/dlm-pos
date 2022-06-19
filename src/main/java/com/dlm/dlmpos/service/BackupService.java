@@ -1,5 +1,6 @@
 package com.dlm.dlmpos.service;
 
+import com.dlm.dlmpos.config.ApplicationConfigurationHolder;
 import com.dlm.dlmpos.dto.FileDownloadDTO;
 import com.dlm.dlmpos.entity.BackupLogEntry;
 import com.dlm.dlmpos.entity.User;
@@ -25,15 +26,18 @@ public class BackupService {
 
     private final BackupLogRepository repository;
     private final UserService userService;
+    private final ApplicationConfigurationHolder configurationHolder;
 
-    public BackupService(BackupLogRepository repository, UserService userService) {
+    public BackupService(BackupLogRepository repository, UserService userService, ApplicationConfigurationHolder configurationHolder) {
         this.repository = repository;
         this.userService = userService;
+        this.configurationHolder = configurationHolder;
     }
 
     public FileDownloadDTO backupDatabase() throws Exception {
         String currentTimeStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
-        String fileName = "d:\\dms-backup_" + currentTimeStr + ".sql";
+        String localLocation = this.configurationHolder.getDatabaseBackupLocation();
+        String fileName = localLocation + currentTimeStr + ".sql";
         File sqlFile;
 
         String cmd = "mysqldump --user=\"appdev\" --password=\"appdev\" dlm > " + fileName;
