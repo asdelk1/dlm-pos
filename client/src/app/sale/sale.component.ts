@@ -48,15 +48,19 @@ export class SaleComponent implements OnInit {
             (items: Item[]) => {
                 this.items = items;
                 this.items.forEach((i) => this.itemDict[i.itemId] = i);
+
+                this.filteredItems = this.form.get("item").valueChanges
+                    .pipe(
+                        startWith(''),
+                        map(item => this._filterItems(item || ''))
+                    );
             }
-        )
+        );
 
         this.filteredItems = this.form.get("item").valueChanges
             .pipe(
                 startWith(''),
-                map(item => {
-                    return item ? this._filterItems(item) : this.items.slice();
-                })
+                map(item => this._filterItems(item || ''))
             );
 
         this.receivedAmount.valueChanges.subscribe(
@@ -69,7 +73,7 @@ export class SaleComponent implements OnInit {
     private _filterItems(value: string): Item[] {
 
         const filterValue = value.toLowerCase();
-        return this.items.filter(item => item.name.toLowerCase().indexOf(filterValue) === 0 || item.itemId.toLowerCase().indexOf(filterValue) === 0);
+        return this.items.filter(item => item.name.toLowerCase().includes(filterValue) || item.itemId.toLowerCase().includes(filterValue));
     }
 
     public onSelectionChange(): void {
@@ -87,6 +91,7 @@ export class SaleComponent implements OnInit {
         const obj: { item: string, qty: number } = this.form.value;
         const item: Item = this.itemDict[obj.item];
         this.sales.push({
+            id: this.sales.length,
             item: item,
             qty: obj.qty
         });
@@ -131,6 +136,14 @@ export class SaleComponent implements OnInit {
             },
             () => {}
         );
+    }
+
+    public removeFromShoppingCart(index: number): void{
+        this.sales.splice(index, 1);
+    }
+
+    public trackByFunc(sale: SaleDetail): any {
+        return sale.id;
     }
 
 }

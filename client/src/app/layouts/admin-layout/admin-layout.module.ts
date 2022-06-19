@@ -19,6 +19,7 @@ import {HistoryComponent} from "../../history/history.component";
 import {SaleDetailComponent} from "../../history/sale-detail/sale-detail.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AddUserComponent} from "../../user-profile/add-user/add-user.component";
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import {AddUserComponent} from "../../user-profile/add-user/add-user.component";
         MatAutocompleteModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatIconModule
     ],
     declarations: [
         UserProfileComponent,

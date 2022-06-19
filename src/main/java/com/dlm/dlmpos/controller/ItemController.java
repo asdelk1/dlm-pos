@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -68,8 +69,8 @@ public class ItemController {
     }
 
     @GetMapping("/item-types")
-    public ResponseEntity<List<String>> getItemTypes() {
-        List<String> list = this.itemService.getItemTypes();
+    public ResponseEntity<Set<String>> getItemTypes() {
+        Set<String> list = this.itemService.getItemTypes();
         return ResponseEntity.ok(list);
     }
 }

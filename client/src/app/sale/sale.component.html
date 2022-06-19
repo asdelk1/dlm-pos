@@ -29,6 +29,7 @@
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Item</mat-label>
                                             <input matInput
+                                                   type="text"
                                                    aria-label="State"
                                                    [matAutocomplete]="auto"
                                                    formControlName="item">
@@ -38,8 +39,8 @@
                                                 <mat-option *ngFor="let item of filteredItems | async"
                                                             [value]="item.itemId">
                                                     <!--                                                <img class="example-option-img" aria-hidden [src]="state.flag" height="25">-->
-                                                    <span>{{item.name}}</span> |
-                                                    <small>{{item.itemId}}</small>
+                                                    <span>{{item.itemId}}</span> |
+                                                    <small>{{item.name}}</small>
                                                 </mat-option>
                                             </mat-autocomplete>
                                         </mat-form-field>
@@ -87,6 +88,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class=" text-primary">
+                                <th></th>
                                 <th>
                                     Item
                                 </th>
@@ -101,7 +103,12 @@
                                 </th>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let sale of sales">
+                                <tr *ngFor="let sale of sales;index as i;trackBy: trackByFunc">
+                                    <td>
+                                        <button mat-icon-button color="warn" aria-label="Remove" (click)="removeFromShoppingCart(i)">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </td>
                                     <td>
                                         {{sale.item.name}}({{sale.item.itemId}})
                                     </td>

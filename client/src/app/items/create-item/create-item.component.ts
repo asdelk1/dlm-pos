@@ -18,7 +18,7 @@ export class CreateItemComponent implements OnInit {
         "id": new FormControl(""),
         "itemId": new FormControl("", [Validators.required]),
         "name": new FormControl("", [Validators.required]),
-        "description": new FormControl("", [Validators.required]),
+        "description": new FormControl("", []),
         "unitPrice": new FormControl("", [Validators.required]),
         "active": new FormControl("true"),
         "type": new FormControl("", [Validators.required])

@@ -40,16 +40,15 @@ export class ItemsComponent implements OnInit {
         });
 
         this.itemSearch.valueChanges.pipe(
-            distinctUntilChanged(),
-            throttleTime(500)
+            throttleTime(200),
+            distinctUntilChanged()
         ).subscribe(
             (value: string) => {
                 if(value.trim() !== ''){
-                    this.items = this._items.filter((item: Item) => item.itemId.includes(value) || item.name.includes(value));
+                    this.items = this._items.filter((item: Item) => item.itemId.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase()));
                 }else{
                     this.items = this._items;
                 }
-
             }
         );
 

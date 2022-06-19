@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,7 @@ public class ItemService {
 
     public Item save(Item item){
 
+        item.setType(item.getType().toUpperCase(Locale.ROOT));
         return this.itemRepository.save(item);
     }
 
@@ -42,10 +45,10 @@ public class ItemService {
         return item;
     }
 
-    public List<String> getItemTypes(){
+    public Set<String> getItemTypes(){
         return this.itemRepository.findAll().stream()
                 .filter(item -> item.getType() != null && !StringUtils.isBlank(item.getType()))
-                .map(Item::getType).collect(Collectors.toList());
+                .map(i -> i.getType().toUpperCase(Locale.ROOT)).collect(Collectors.toSet());
     }
 
 
